@@ -1,6 +1,7 @@
-package io.redis;
+package com.etsy.rdb;
 
 import java.io.*;
+import java.util.Arrays;
 import com.ning.compress.lzf.LZFEncoder;
 
 public abstract class RDBString {
@@ -12,10 +13,10 @@ public abstract class RDBString {
 
   public static RDBString create(byte[] bytes) throws IOException {
 //compression doesn't seem to work yet
-//    if(bytes.length < 20)
+    if(bytes.length < 20)
       return uncompressed(bytes);
-//    else
-//      return new RDBCompressedString(bytes);
+    else
+      return new RDBCompressedString(bytes);
   }
 
   public static RDBString create(String string) throws IOException {
@@ -45,7 +46,10 @@ class RDBCompressedString extends RDBByteString {
 
   RDBCompressedString(byte[] bytes) throws IOException {
     super(bytes);
-    compressed = LZFEncoder.encode(bytes);
+    byte[] compressedWithHeaders = LZFEncoder.encode(bytes);
+    compressed = Arrays.copyOfRange(compressedWithHeaders, 7, compressedWithHeaders.length - 1);
+    compressed[0] = 1;
+
     System.out.println("Compressed " + bytes.length + " to " + compressed.length);
   }
 

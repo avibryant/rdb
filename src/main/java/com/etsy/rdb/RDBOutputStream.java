@@ -1,4 +1,4 @@
-package io.redis;
+package com.etsy.rdb;
 
 import java.io.*;
 
@@ -15,7 +15,7 @@ public class RDBOutputStream {
 
   public void writeHeader() throws IOException {
     out.write("REDIS".getBytes());
-    out.write("0002".getBytes());
+    out.write("0001".getBytes());
   }
 
   public void writeFooter() throws IOException {
@@ -97,12 +97,13 @@ public class RDBOutputStream {
     RDBOutputStream rdb = new RDBOutputStream(new FileOutputStream(args[0]));
     rdb.writeHeader();
     rdb.writeDatabaseSelector(0);
-    rdb.writeString(RDBString.create("1"), RDBString.create(1));
+ /*   rdb.writeString(RDBString.create("1"), RDBString.create(1));
     rdb.writeString(RDBString.create("-1"), RDBString.create(-1));
     rdb.writeString(RDBString.create("-50000"), RDBString.create(-50000));
     rdb.writeString(RDBString.create("long"), RDBString.uncompressed("this is a test of aaaaaaaaaaaa long string aaaaaa this is a test of a long string aaaa".getBytes()));
     rdb.writeSet(RDBString.create("set"), new RDBString[]{RDBString.create("s1"), RDBString.create("s2")});
-    rdb.writeHash(RDBString.create("hash"), new RDBString[]{RDBString.create("s1"), RDBString.create("s2")}, new RDBString[]{RDBString.create(1), RDBString.create(2)});
+ */   rdb.writeHash(RDBString.create("hash"), new RDBString[]{RDBString.create("s1"), RDBString.create("s2")}, new RDBString[]{RDBString.create(1), RDBString.create(2)});
+    rdb.writeString(RDBString.create("foo"), RDBString.create("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     rdb.writeFooter();
     rdb.close();
   }
