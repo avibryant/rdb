@@ -12,7 +12,7 @@ import org.apache.hadoop.mapred.RecordWriter;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.util.Progressable;
 
-public class RDBOutputFormat extends FileOutputFormat {
+public class RDBOutputFormat extends FileOutputFormat<RDBString, RDBString> {
 
   protected static class RedisRecordWriter implements RecordWriter<RDBString, RDBString> {
 

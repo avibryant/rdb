@@ -47,6 +47,7 @@ public class RDBScheme extends Scheme<JobConf, RecordReader, OutputCollector, Ob
   public void sink( FlowProcess<JobConf> flowProcess, SinkCall<Void, OutputCollector> sinkCall ) throws IOException
     {
       Tuple tuple = sinkCall.getOutgoingEntry().getTuple();
-      sinkCall.getOutput().collect( tuple.getObject(0), tuple.getObject(1) );
+      sinkCall.getOutput().collect( RDBString.uncompressed(tuple.getObject(0).toString().getBytes()), 
+                                    RDBString.uncompressed(tuple.getObject(1).toString().getBytes()));
     }
   }
